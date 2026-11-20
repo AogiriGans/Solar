@@ -1,0 +1,361 @@
+:root {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #e6e9f5;
+  background: #05060f;
+}
+
+.app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #0b0f2a 0%, #05060f 60%, #000 100%);
+}
+
+/* ===== Bintang ===== */
+.starfield {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  animation: twinkle ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.7); }
+  50%      { opacity: 1;    transform: scale(1.15); }
+}
+
+/* ===== Meteor ===== */
+.shooting-star {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fff 60%, #fff);
+  border-radius: 2px;
+  filter: drop-shadow(0 0 6px #9ecbff);
+  opacity: 0;
+  animation: shoot linear infinite;
+  pointer-events: none;
+}
+@keyframes shoot {
+  0%   { transform: translate(0, 0) rotate(25deg);         opacity: 0; }
+  5%   { opacity: 1; }
+  25%  { opacity: 1; }
+  40%  { opacity: 0; }
+  100% { transform: translate(700px, 326px) rotate(25deg); opacity: 0; }
+}
+
+/* ===== Nebula ===== */
+.nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.nebula-1 {
+  width: 500px; height: 500px;
+  background: #4a2a8a;
+  top: -150px; left: -150px;
+  animation: drift 25s ease-in-out infinite alternate;
+}
+.nebula-2 {
+  width: 600px; height: 600px;
+  background: #1d4e89;
+  bottom: -200px; right: -200px;
+  animation: drift 30s ease-in-out infinite alternate-reverse;
+}
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(80px, 60px) scale(1.15); }
+}
+
+/* ===== HUD ===== */
+.hud {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+.hud h1 {
+  font-size: clamp(22px, 3vw, 38px);
+  font-weight: 800;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffd77a, #ff9a9e, #a18cd1, #84fab0, #ffd77a);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 8s linear infinite;
+}
+.hud p {
+  font-size: clamp(10px, 1.1vw, 13px);
+  color: rgba(230, 233, 245, 0.55);
+  letter-spacing: 4px;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+@keyframes shine {
+  from { background-position: 0% 50%; }
+  to   { background-position: 300% 50%; }
+}
+
+/* ===== Stage ===== */
+.stage-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stage {
+  position: relative;
+  width: 900px;
+  height: 900px;
+  transform-origin: center center;
+  transition: transform 0.3s ease;
+}
+
+/* ===== Matahari ===== */
+.sun {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 60px; height: 60px;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+.sun-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff8c4 0%, #ffd54a 30%, #ff9a00 65%, #ff4500 100%);
+  box-shadow:
+    0 0 15px #ffcc44,
+    0 0 40px #ff9900aa,
+    0 0 90px #ff660066,
+    0 0 180px #ff330033;
+  animation: sun-breathe 4s ease-in-out infinite;
+}
+.sun-glow {
+  position: absolute;
+  inset: -50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,170,60,0.35) 0%, rgba(255,120,0,0.1) 40%, transparent 70%);
+  animation: sun-glow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes sun-breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+@keyframes sun-glow {
+  0%, 100% { transform: scale(1);    opacity: 0.9; }
+  50%      { transform: scale(1.15); opacity: 1; }
+}
+
+/* ===== Orbit ===== */
+.orbit {
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(130, 160, 255, 0.09);
+  transform: translate(-50%, -50%);
+  animation: orbit-spin linear infinite;
+  transition: border-color 0.5s ease;
+}
+.orbit-hidden {
+  border-color: transparent;
+}
+@keyframes orbit-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ===== Planet anchor (counter-rotasi supaya tetap tegak) ===== */
+.planet-anchor {
+  position: absolute;
+  top: 0; left: 50%;
+  transform-origin: center;
+  animation: planet-upright linear infinite;
+}
+@keyframes planet-upright {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+.planet {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transition: filter 0.25s ease;
+}
+.planet-anchor:hover .planet {
+  filter: brightness(1.4);
+}
+
+/* ===== Cincin Saturnus ===== */
+.ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 190%;
+  height: 48%;
+  border: 2px solid;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* ===== Bulan (Bumi) ===== */
+.moon-track {
+  position: absolute;
+  top: 50%; left: 50%;
+  animation: moon-orbit 4s linear infinite;
+  pointer-events: none;
+}
+.moon {
+  position: absolute;
+  top: -10px; left: -1.5px;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #dfe6f5;
+  box-shadow: 0 0 4px #dfe6f5;
+}
+@keyframes moon-orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ===== Label Planet ===== */
+.label {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #cfe0ff;
+  white-space: nowrap;
+  padding: 3px 8px;
+  background: rgba(8, 12, 30, 0.75);
+  border: 1px solid rgba(120, 160, 255, 0.3);
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  text-shadow: 0 0 8px rgba(150, 180, 255, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.planet-anchor:hover .label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(2px);
+}
+
+/* ===== Kontrol ===== */
+.controls {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 12px 20px;
+  background: rgba(10, 15, 35, 0.55);
+  border: 1px solid rgba(120, 160, 255, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 20;
+  max-width: calc(100vw - 32px);
+}
+.btn {
+  background: linear-gradient(135deg, rgba(80, 120, 255, 0.25), rgba(150, 80, 255, 0.25));
+  border: 1px solid rgba(140, 170, 255, 0.35);
+  color: #e6e9f5;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.btn:hover {
+  background: linear-gradient(135deg, rgba(80, 120, 255, 0.45), rgba(150, 80, 255, 0.45));
+  box-shadow: 0 0 20px rgba(120, 140, 255, 0.4);
+  transform: translateY(-1px);
+}
+.btn:active { transform: translateY(0); }
+
+.slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #b8c4e0;
+  letter-spacing: 1px;
+}
+.slider-wrap label {
+  text-transform: uppercase;
+  font-size: 10px;
+  opacity: 0.7;
+}
+.slider-wrap span {
+  min-width: 36px;
+  text-align: right;
+  color: #ffd77a;
+  font-variant-numeric: tabular-nums;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, #4a7bff, #a855f7);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px #7aa2ff;
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 14px; height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px #7aa2ff;
+  cursor: pointer;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .hud { top: 16px; }
+  .hud h1 { letter-spacing: 4px; }
+  .controls { bottom: 16px; padding: 10px 14px; gap: 10px; }
+  .btn { padding: 6px 12px; font-size: 11px; }
+  input[type="range"] { width: 80px; }
+}
